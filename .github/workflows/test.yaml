@@ -42,6 +42,11 @@ jobs:
       run:
         certbot --version
 
+    - name: az cli
+      run:
+        az --version
+
+
 #    - name: Azure CLI Login
 #      uses: azure/login@v2
 #      with:

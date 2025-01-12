@@ -14,10 +14,14 @@ jobs:
 
     - name: setup python
       uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+        cache: 'pip'
 
     - name: python version installed is 
       run: |
         python --version
+
 
     - name: run script
       env:
@@ -25,6 +29,13 @@ jobs:
       run: |
         chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
         "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" 
+
+    - name: install dependencies
+      run: pip install -r "${}GITHUB_WORKSPACE}/scripts/requirements.txt"
+
+    - name: certbot
+      run:
+        certbot --version
 
 #    - name: Azure CLI Login
 #      uses: azure/login@v2

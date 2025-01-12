@@ -20,11 +20,10 @@ jobs:
         python --version
 
     - name: run script 
-      env:
         GITHUB_WORKSPACE: ${{ github.workspace }}
       run: |
-        chmod +x "/scripts/certbot/test.sh"
-        "/scripts/certbot/test.sh " 
+        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh " 
 
 #    - name: Azure CLI Login
 #      uses: azure/login@v2

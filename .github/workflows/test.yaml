@@ -1,5 +1,10 @@
 name: Run Azure CLI Login with OpenID Connect
 on: [push]
+inputs:
+  env:
+    default: blue
+  domain:
+    default: xyz.com
 
 permissions:
   id-token: write 
@@ -11,6 +16,14 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+    - name: set domain based on env 
+      run: |
+        if [ "$env" != "blue"]; then
+          echo "domain=abc.com" >> $GITHUB_ENV
+    - name: print vars
+      run: |
+        echo "env is : $env"
+        echo "domain is : $domain"
 
     - name: setup python
       uses: actions/setup-python@v5

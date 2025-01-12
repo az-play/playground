@@ -27,7 +27,7 @@ jobs:
 	        echo "domain=abc.com" >> $GITHUB_ENV 
 	      else
 	        echo "domain=${{ github.event.inputs.domain }}" >> $GITHUB_ENV
-	      fi 
+	      fi
     - name: Print vars 
       run: |
         echo "env is : ${{ github.event.inputs.env }}" 

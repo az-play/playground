@@ -19,7 +19,9 @@ jobs:
       run: |
         python --version
 
-    - name: run script 
+    - name: run script
+      env:
+        GITHUB_WORKSPACE: ${{ github.workspace }}
       run: |
         chmod +x "${{ github.workspace }}/scripts/certbot/test.sh"
         "${{ github.workspace }}/scripts/certbot/test.sh" 

@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo "Running Python script..."
-python "${{ github.workspace }}/scripts/certbot/hello.py"
+python "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 

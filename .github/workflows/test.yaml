@@ -21,7 +21,8 @@ jobs:
 
     - name: run script 
       run: |
-        python text.py 
+        chmod +x /scripts/certbot/test.sh
+        /scripts/certbot/test.sh 
 
 #    - name: Azure CLI Login
 #      uses: azure/login@v2

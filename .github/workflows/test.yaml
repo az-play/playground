@@ -21,7 +21,7 @@ jobs:
 
     - name: run script 
       run: |
-        chmod +x "${ github.workspace }/scripts/certbot/test.sh"
+        chmod +x "${{ github.workspace }}/scripts/certbot/test.sh"
         "${{ github.workspace }}/scripts/certbot/test.sh" 
 
 #    - name: Azure CLI Login

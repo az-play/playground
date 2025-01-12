@@ -1,10 +1,14 @@
 name: Run Azure CLI Login with OpenID Connect
-on: [push]
-inputs:
-  env:
-    default: blue
-  domain:
-    default: xyz.com
+workflow_dispatch: 
+  inputs: 
+    env: 
+      description: 'Environment' 
+      required: true 
+      default: 'blue' 
+    domain: 
+      description: 'Domain' 
+      required: true 
+      default: 'xyz.com'
 
 permissions:
   id-token: write 

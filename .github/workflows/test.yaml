@@ -24,10 +24,10 @@ jobs:
     - name: Set domain based on env 
       run: | 
       	if [ "$env" != "blue" ]; then 
-	  echo "domain=abc.com" >> $GITHUB_ENV 
-	else
-	  echo "domain=${{ github.event.inputs.domain }}" >> $GITHUB_ENV
-	fi 
+	        echo "domain=abc.com" >> $GITHUB_ENV 
+	      else
+	        echo "domain=${{ github.event.inputs.domain }}" >> $GITHUB_ENV
+	      fi 
     - name: Print vars 
       run: |
         echo "env is : ${{ github.event.inputs.env }}" 

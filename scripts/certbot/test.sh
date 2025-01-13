@@ -15,13 +15,20 @@ rp=$(jq -r '.RP' "$env_vars_file")
 sub=$(jq -r '.subscription_id' "$env_vars_file")
 fqdn="*.$default_domain"
 
-echo "Running Python script with default_env: $default_env, default_domain: $default_domain, RG: $rg, RP: $rp, and fqdn: $fqdn and sub: $sub"
+
+json_object=$(jq -n \ 
+    --arg default_env "$default_env" \ 
+    --arg default_domain "$default_domain" \ 
+    --arg rg "$rg" \ 
+    --arg rp "$rp" \ 
+    --arg sub "$sub" \ 
+    '{default_env: $default_env, default_domain: $default_domain, RG: $rg, RP: $rp, subscription_id: $sub}')
 
 # Display the content of the config file
 echo "Config file content:"
 cat "$config_file"
 
 # Run the Python script
-python "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
+python "${GITHUB_WORKSPACE}/scripts/certbot/hello.py" "$json_object"
 
 

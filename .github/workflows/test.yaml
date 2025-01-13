@@ -1,4 +1,5 @@
 name: Run Azure CLI Login with OpenID Connect
+
 on:
   workflow_dispatch: 
     inputs: 
@@ -8,15 +9,13 @@ on:
         type: boolean
         default: true 
       sub:
-        decription: subcription for azure
+        description: 'Subscription for Azure'
         required: true
         default: '29876-6666-0000'
       tenant-id:
-        decription: tenant for azure
+        description: 'Tenant for Azure'
         required: true
         default: '123-5444-333'
-
-      
 
 permissions:
   id-token: write 
@@ -26,102 +25,75 @@ jobs:
     runs-on: ubuntu-latest
     env:
       default-env: "blue"
-      default-domain:  "xyz.com"
+      default-domain: "xyz.com"
       RG: "hello"
       RP: "HI"
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      dns-zone: "${{ env.default-domain }}:/sub/${{ github.event.inputs.sub }}/rg/${{ env.RG }}/providers/ms/dns-zone/${{ env.default-domain }}"
       
-    - name: Set domain based on env 
-      run: | 
-        if [ "${{ github.event.inputs.is-blue }}" = true ]; then 
-          echo "env=${{ env.default-env }}" >> $GITHUB_ENV 
-          echo "domain=${{ env.default-domain }}" >> $GITHUB_ENV
-        else 
-          echo "default-env=green" >> $GITHUB_ENV 
-          echo "default-domain=abc.com" >> $GITHUB_ENV
-        fi
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set domain based on env 
+        id: set-domain
+        run: | 
+          if [ "${{ github.event.inputs.is-blue }}" = true ]; then 
+            echo "env=${{ env.default-env }}" >> $GITHUB_ENV 
+            echo "domain=${{ env.default-domain }}" >> $GITHUB_ENV
+          else 
+            echo "default-env=green" >> $GITHUB_ENV 
+            echo "default-domain=abc.com" >> $GITHUB_ENV
+          fi
 
-    - name: Set dns-zone 
-      id: set-dns-zone 
-      run: | 
-        echo "dns_zone=${{ env.default-domain }}:/sub/${{ github.event.inputs.sub }}/rg/${{ env.RG }}/providers/ms/dns-zone/${{ env.default-domain }}" >> $GITHUB_ENV
-    
-    - name: Print vars 
-      run: |
-        echo "env is : ${{ env.default-env }}" 
-        echo "domain is : ${{env.default-domain}}"
-        echo "dns-zone is : ${{env.dns_zone}}"
+      - name: Set dns-zone
+        id: set-dns-zone
+        run: | 
+          echo "dns_zone=${{ env.default-domain }}:/sub/${{ github.event.inputs.sub }}/rg/${{ env.RG }}/providers/ms/dns-zone/${{ env.default-domain }}" >> $GITHUB_ENV
 
-    - name: setup python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.13'
-        cache: 'pip'
+      - name: Print vars 
+        run: |
+          echo "env is : ${{ env.default-env }}" 
+          echo "domain is : ${{ env.default-domain }}"
+          echo "dns-zone is : ${{ env.dns_zone }}"
 
-    - name: python version installed is 
-      run: |
-        python --version
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
 
-    # - name: run script
-    #   run: |
-    #     chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
-    #     "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" "${{env.RG}}" 
+      - name: Python version installed
+        run: |
+          python --version
 
-    - name: Create config file and cat it 
-      run: | 
-        cat <<EOF > certbot-config.ini 
-        dns_azure_use_workload_identity_credentials = true 
-        dns_azure_environment = "AzurePublicCloud" 
-        dns_azure_zone1 = "${{ env.dns_zone }}" 
-        EOF 
+      - name: Create config file and cat it 
+        run: | 
+          cat <<EOF > certbot-config.ini
+dns_azure_use_workload_identity_credentials = true
+dns_azure_environment = "AzurePublicCloud"
+dns_azure_zone1 = "${{ env.dns_zone }}"
+EOF
           cat certbot-config.ini
 
-    - name: Run script 
-      run: | 
-        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
-        cat <<EOF > env_vars.json 
-        { 
-          "default_env": "${{ env.default-env }}", 
-          "default_domain": "${{ env.default-domain }}", 
-          "RG": "${{ env.RG }}", 
-          "RP": "${{ env.RP }}" 
-          }   
-          EOF "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json certbot-config.ini
+      - name: Run script 
+        run: | 
+          chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+          cat <<EOF > env_vars.json
+{
+  "default_env": "${{ env.env }}",
+  "default_domain": "${{ env.domain }}",
+  "RG": "${{ env.RG }}",
+  "RP": "${{ env.RP }}"
+}
+EOF
+          "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json certbot-config.ini
 
+      - name: Install dependencies
+        run: pip install -r "${GITHUB_WORKSPACE}/scripts/requirements.txt"
 
+      - name: Certbot version
+        run: certbot --version
 
-#    - name: run script
-#      env:
-#        GITHUB_WORKSPACE: ${{ github.workspace }}
-#      run: |
-#        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
-#        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" 
-#
-    - name: install dependencies
-      run: pip install -r "${GITHUB_WORKSPACE}/scripts/requirements.txt"
-
-    - name: certbot
-      run:
-        certbot --version
-
-    - name: az cli
-      run:
-        az --version
-
-
-#    - name: Azure CLI Login
-#      uses: azure/login@v2
-#      with:
-#        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-#        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-#        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#  
-#    - name: Azure CLI script
-#      uses: azure/cli@v2
-#      with:
-#        azcliversion: latest
-#        inlineScript: |
-#          az account show
+      - name: Azure CLI version
+        run: az --version

@@ -51,7 +51,7 @@ jobs:
 
     - name: run script
       run: |
-        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"s
+        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
         "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" "${{env.RG}}" 
 
 

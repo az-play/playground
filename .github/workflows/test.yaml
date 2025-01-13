@@ -43,7 +43,7 @@ jobs:
           echo "default-env=green" >> $GITHUB_ENV 
           echo "default-domain=abc.com" >> $GITHUB_ENV
         fi
-        
+
     - name: Set dns-zone 
       id: set-dns-zone 
       run: | 
@@ -53,7 +53,7 @@ jobs:
       run: |
         echo "env is : ${{ env.default-env }}" 
         echo "domain is : ${{env.default-domain}}"
-        echo "dns-zone is : ${{env.dns-zone}}"
+        echo "dns-zone is : ${{env.dns_zone}}"
 
     - name: setup python
       uses: actions/setup-python@v5
@@ -75,9 +75,9 @@ jobs:
         cat <<EOF > certbot-config.ini 
         dns_azure_use_workload_identity_credentials = true 
         dns_azure_environment = "AzurePublicCloud" 
-        dns_azure_zone1 = "${{ env.dns-zone }}" 
+        dns_azure_zone1 = "${{ env.dns_zone }}" 
         EOF 
-        cat certbot-config.ini
+          cat certbot-config.ini
 
     - name: Run script 
       run: | 
@@ -88,7 +88,7 @@ jobs:
           "default_domain": "${{ env.default-domain }}", 
           "RG": "${{ env.RG }}", 
           "RP": "${{ env.RP }}" 
-          } 
+          }   
           EOF "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json certbot-config.ini
 
 

@@ -7,6 +7,16 @@ on:
         required: true
         type: boolean
         default: true 
+      sub:
+        decription: subcription for azure
+        required: true
+        default: '29876-6666-0000'
+      tenant-id:
+        decription: tenant for azure
+        required: true
+        default: '123-5444-333'
+
+      
 
 permissions:
   id-token: write 
@@ -19,6 +29,7 @@ jobs:
       default-domain:  "xyz.com"
       RG: "hello"
       RP: "HI"
+      dns-zone: "${{ env.default-domain }}:/sub/${{ github.event.inputs.sub }}/rg/${{env.RG}}/providers/ms/dns-zone/${{ env.default-domain }}"
     steps:
     - uses: actions/checkout@v4
       with:
@@ -38,6 +49,7 @@ jobs:
       run: |
         echo "env is : ${{ env.default-env }}" 
         echo "domain is : ${{env.default-domain}}"
+        echo "dns-zone is : ${{env.dns-zone}}"
 
     - name: setup python
       uses: actions/setup-python@v5
@@ -49,11 +61,30 @@ jobs:
       run: |
         python --version
 
-    - name: run script
-      run: |
-        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
-        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" "${{env.RG}}" 
+    # - name: run script
+    #   run: |
+    #     chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+    #     "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" "${{env.RG}}" 
 
+    - name: Run script 
+      run: | 
+        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+        cat <<EOF > env_vars.json 
+        { 
+          "default_env": "${{ env.default-env }}", 
+          "default_domain": "${{ env.default-domain }}", 
+          "RG": "${{ env.RG }}", 
+          "RP": "${{ env.RP }}" 
+          } 
+          EOF "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
+
+    - name: Create config file and cat it 
+      run: | 
+      cat <<EOF > certbot-config.ini 
+      dns_azure_use_workload_identity_credentials = true 
+      dns_azure_environment = "AzurePublicCloud" 
+      dns_azure_zone1 = "${{ env.dns-zone }}" 
+      EOF cat dns_config.conf
 
 #    - name: run script
 #      env:

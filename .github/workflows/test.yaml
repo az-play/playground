@@ -2,14 +2,11 @@ name: Run Azure CLI Login with OpenID Connect
 on:
   workflow_dispatch: 
     inputs: 
-      env: 
+      is-blue: 
         description: 'Environment' 
-        required: true 
-        default: 'blue' 
-      domain: 
-        description: 'Domain' 
-        required: true 
-        default: 'xyz.com'
+        required: true
+        type: boolean
+        default: true 
 
 permissions:
   id-token: write 
@@ -17,22 +14,28 @@ permissions:
 jobs: 
   test:
     runs-on: ubuntu-latest
+    env:
+      default-env: "blue"
+      default-domain:  "xyz.com"
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+      
     - name: Set domain based on env 
       run: | 
-        if [ "${{ github.event.inputs.env }}" != "blue" ]; then 
-          echo "domain=abc.com" >> $GITHUB_ENV 
+        if [ "${{ github.event.inputs.is-blue }}" = true ]; then 
+          echo "env=${{ env.default-env }}" >> $GITHUB_ENV 
+          echo "domain=${{ env.default-domain }}" >> $GITHUB_ENV
         else 
-          echo "domain=${{ github.event.inputs.domain }}" >> $GITHUB_ENV 
+          echo "default-env=green" >> $GITHUB_ENV 
+          echo "default-domain=abc.com" >> $GITHUB_ENV
         fi
     
     - name: Print vars 
       run: |
-        echo "env is : ${{ github.event.inputs.env }}" 
-        echo "domain is : $domain"
+        echo "env is : ${{ env.default-env }}" 
+        echo "domain is : ${{env.default-domain}}"
 
     - name: setup python
       uses: actions/setup-python@v5

@@ -17,6 +17,8 @@ jobs:
     env:
       default-env: "blue"
       default-domain:  "xyz.com"
+      RG: "hello"
+      RP: "HI"
     steps:
     - uses: actions/checkout@v4
       with:

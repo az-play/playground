@@ -66,6 +66,15 @@ jobs:
     #     chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
     #     "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" "${{env.RG}}" 
 
+    - name: Create config file and cat it 
+      run: | 
+        cat <<EOF > certbot-config.ini 
+        dns_azure_use_workload_identity_credentials = true 
+        dns_azure_environment = "AzurePublicCloud" 
+        dns_azure_zone1 = "${{ env.dns-zone }}" 
+        EOF 
+        cat certbot-config.ini
+
     - name: Run script 
       run: | 
         chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
@@ -76,15 +85,9 @@ jobs:
           "RG": "${{ env.RG }}", 
           "RP": "${{ env.RP }}" 
           } 
-          EOF "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
+          EOF "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json certbot-config.ini
 
-    - name: Create config file and cat it 
-      run: | 
-      cat <<EOF > certbot-config.ini 
-      dns_azure_use_workload_identity_credentials = true 
-      dns_azure_environment = "AzurePublicCloud" 
-      dns_azure_zone1 = "${{ env.dns-zone }}" 
-      EOF cat dns_config.conf
+
 
 #    - name: run script
 #      env:

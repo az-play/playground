@@ -2,6 +2,6 @@
 
 echo "Running Python script..."
 
-echo "The RG is ${env.RG}"
+echo "The RG IS $1"
 python "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 

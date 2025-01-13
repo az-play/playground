@@ -23,7 +23,7 @@ jobs:
         fetch-depth: 0
     - name: Set domain based on env 
       run: | 
-        if [ "$env" != "blue" ]; then 
+        if [ "${{ github.event.inputs.env }}" != "blue" ]; then 
           echo "domain=abc.com" >> $GITHUB_ENV 
         else 
           echo "domain=${{ github.event.inputs.domain }}" >> $GITHUB_ENV 
@@ -33,7 +33,7 @@ jobs:
       run: |
         echo "env is : ${{ github.event.inputs.env }}" 
         echo "domain is : $domain"
-        
+
     - name: setup python
       uses: actions/setup-python@v5
       with:

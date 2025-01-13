@@ -84,6 +84,7 @@ jobs:
             "default_domain": "${{ env.default-domain }}",
             "RG": "${{ env.RG }}",
             "RP": "${{ env.RP }}"
+            "subscription_id": "${{ github.event.inputs.sub }}"
           }
           EOF
             "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json certbot-config.ini

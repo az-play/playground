@@ -29,7 +29,6 @@ jobs:
       default-domain:  "xyz.com"
       RG: "hello"
       RP: "HI"
-      dns-zone: "${{ env.default-domain }}:/sub/${{ github.event.inputs.sub }}/rg/${{env.RG}}/providers/ms/dns-zone/${{ env.default-domain }}"
     steps:
     - uses: actions/checkout@v4
       with:
@@ -44,6 +43,11 @@ jobs:
           echo "default-env=green" >> $GITHUB_ENV 
           echo "default-domain=abc.com" >> $GITHUB_ENV
         fi
+        
+    - name: Set dns-zone 
+      id: set-dns-zone 
+      run: | 
+        echo "dns_zone=${{ env.default-domain }}:/sub/${{ github.event.inputs.sub }}/rg/${{ env.RG }}/providers/ms/dns-zone/${{ env.default-domain }}" >> $GITHUB_ENV
     
     - name: Print vars 
       run: |

@@ -70,24 +70,24 @@ jobs:
       - name: Create config file and cat it 
         run: | 
           cat <<EOF > certbot-config.ini
-dns_azure_use_workload_identity_credentials = true
-dns_azure_environment = "AzurePublicCloud"
-dns_azure_zone1 = "${{ env.dns_zone }}"
-EOF
-          cat certbot-config.ini
+          dns_azure_use_workload_identity_credentials = true
+          dns_azure_environment = "AzurePublicCloud"
+          dns_azure_zone1 = "${{ env.dns_zone }}"
+          EOF
+            cat certbot-config.ini
 
       - name: Run script 
         run: | 
           chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
           cat <<EOF > env_vars.json
-{
-  "default_env": "${{ env.env }}",
-  "default_domain": "${{ env.domain }}",
-  "RG": "${{ env.RG }}",
-  "RP": "${{ env.RP }}"
-}
-EOF
-          "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json certbot-config.ini
+          {
+            "default_env": "${{ env.env }}",
+            "default_domain": "${{ env.domain }}",
+            "RG": "${{ env.RG }}",
+            "RP": "${{ env.RP }}"
+          }
+          EOF
+            "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json certbot-config.ini
 
       - name: Install dependencies
         run: pip install -r "${GITHUB_WORKSPACE}/scripts/requirements.txt"

@@ -3,7 +3,7 @@ on:
   workflow_dispatch: 
     inputs: 
       is-blue: 
-        description: 'Environment' 
+        description: 'blue-deployment' 
         required: true
         type: boolean
         default: true 

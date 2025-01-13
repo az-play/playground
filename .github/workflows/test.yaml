@@ -28,7 +28,6 @@ jobs:
       default-domain: "xyz.com"
       RG: "hello"
       RP: "HI"
-      dns-zone: "${{ env.default-domain }}:/sub/${{ github.event.inputs.sub }}/rg/${{ env.RG }}/providers/ms/dns-zone/${{ env.default-domain }}"
       
     steps:
       - uses: actions/checkout@v4
@@ -81,8 +80,8 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
           cat <<EOF > env_vars.json
           {
-            "default_env": "${{ env.env }}",
-            "default_domain": "${{ env.domain }}",
+            "default_env": "${{ env.default-env }}",
+            "default_domain": "${{ env.default-domain }}",
             "RG": "${{ env.RG }}",
             "RP": "${{ env.RP }}"
           }

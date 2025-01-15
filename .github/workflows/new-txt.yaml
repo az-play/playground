@@ -26,12 +26,15 @@ jobs:
 
       - name: deploy certbot
         run: |
-          certbot certonly \
-          --logs-dir /tmp/cert-logs \
-          --work-dir /tmp/cert-work \
-          --config-dir /tmp/cert-config \
-          --register-unsafely-without-email \
-          -d example.com
+          certbot certonly \ 
+            --authenticator dns-azure \ 
+            --preferred-challenges dns \ 
+            --noninteractive \ 
+            --logs-dir /tmp/cert-logs \ 
+            --work-dir /tmp/cert-work \ 
+            --config-dir /tmp/cert-config \ 
+            --register-unsafely-without-email \ 
+            -d example.com
 
       # - name: run certbot commands
         

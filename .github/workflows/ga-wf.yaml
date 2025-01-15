@@ -25,8 +25,9 @@ jobs:
       #     inlineScript: |
       #       az account show
       
-      - name: mask variables
-        run: |
-          echo "::add-mask::${{env.access-key-id}}" 
-          echo "ACCESS_TOKEN=${{env.access-key-id}}" >> $GITHUB_ENV
+    - name: call shell and pass input params 
+      run: |
+        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+
           

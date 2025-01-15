@@ -27,6 +27,6 @@ jobs:
       
       - name: mask variables
         run: |
-        echo "::add-mask::${{env.access-key-id}}" 
-        echo "ACCESS_TOKEN=${{env.access-key-id}}" >> $GITHUB_ENV
+          echo "::add-mask::${{env.access-key-id}}" 
+          echo "ACCESS_TOKEN=${{env.access-key-id}}" >> $GITHUB_ENV
           

@@ -31,6 +31,7 @@ jobs:
       id: gen-pass
       run: |
         pfx=$(openssl rand -base64 12)
+        echo "pfx=${pfx}" >> "${GITHUB_OUTPUT}"
 
     - name: print pass
       run: |

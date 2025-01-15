@@ -24,7 +24,9 @@ jobs:
       #     azcliversion: latest
       #     inlineScript: |
       #       az account show
-      
+    - name: Checkout
+      uses: actions/checkout@v4
+
     - name: call shell and pass input params 
       run: |
         chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"

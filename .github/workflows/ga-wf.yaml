@@ -26,6 +26,16 @@ jobs:
       #       az account show
     - name: Checkout
       uses: actions/checkout@v4
+    
+    - name: generate random pass
+      id: gen-pass
+      run: |
+        pfx=$(openssl rand -base64 12)
+        echo "::set-output name=pfx::$pfx"
+
+    - name: print pass
+      run: |
+        echo "${{steps.gen-pass.outputs.pfx}}"
 
     - name: call shell and pass input params 
       run: |

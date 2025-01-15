@@ -23,13 +23,17 @@ jobs:
       - name: create dirs for certbot
         run: |
           mkdir -p /tmp/cert-logs /tmp/cert-config /tmp/cert-work
+      - name: touch
+        run: |
+          touch tst.ini
 
       - name: deploy certbot
         run: |
           certbot certonly \ 
             --authenticator dns-azure \ 
             --preferred-challenges dns \
-            --agree-tos \ 
+            --agree-tos \
+            --dns-azure-config tst.ini \
             --noninteractive \ 
             --logs-dir /tmp/cert-logs \ 
             --work-dir /tmp/cert-work \ 

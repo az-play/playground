@@ -26,6 +26,10 @@ jobs:
       - name: touch
         run: |
           touch tst.ini
+      
+      - name: very azure dns plugin
+        run: |
+          echo $(certbot plugins | grep "certbot-dns-azure")
 
       - name: deploy certbot
         run: |

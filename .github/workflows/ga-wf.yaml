@@ -7,18 +7,26 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      access-key-id: "123456-77777-999999"
+      secret-key-id: "12345-99999-00000"
     steps:
-      - name: 'Az CLI login'
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # - name: 'Az CLI login'
+      #   uses: azure/login@v2
+      #   with:
+      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: 'Run az commands'
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
+      # - name: 'Run az commands'
+      #   uses: azure/cli@v2
+      #   with:
+      #     azcliversion: latest
+      #     inlineScript: |
+      #       az account show
+      
+      - name: mask variables
+        run: |
+        echo "::add-mask::${{env.access-key-id}}" 
+        echo "ACCESS_TOKEN=${{env.access-key-id}}" >> $GITHUB_ENV
           

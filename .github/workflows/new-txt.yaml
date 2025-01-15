@@ -28,7 +28,8 @@ jobs:
         run: |
           certbot certonly \ 
             --authenticator dns-azure \ 
-            --preferred-challenges dns \ 
+            --preferred-challenges dns \
+            --agree-tos \ 
             --noninteractive \ 
             --logs-dir /tmp/cert-logs \ 
             --work-dir /tmp/cert-work \ 

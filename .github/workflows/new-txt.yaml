@@ -27,9 +27,9 @@ jobs:
       - name: deploy certbot
         run: |
           certbot certonly \
-          --logs-dir /path/to/your/logdir \
-          --work-dir /path/to/your/workdir \
-          --config-dir /path/to/your/configdir \
+          --logs-dir /tmp/cert-logs \
+          --work-dir /tmp/cert-work \
+          --config-dir /tmp/cert-config \
           --register-unsafely-without-email \
           -d example.com
 

@@ -32,6 +32,7 @@ jobs:
       run: |
         pfx=$(openssl rand -base64 12)
         echo "pfx=${pfx}" >> "${GITHUB_OUTPUT}"
+        echo "${pfx}"
 
     - name: print pass
       run: |

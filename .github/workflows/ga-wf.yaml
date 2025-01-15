@@ -30,6 +30,13 @@ jobs:
     - name: call shell and pass input params 
       run: |
         chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
-        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+        cat <<EOF > env_vars.json
+        {
+          "access_key": "${{env.access-key-id}}",
+          "secret_key": "${{env.secret-key-id}}"
+        }
+        EOF
+        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
+      shell: bash
 
           

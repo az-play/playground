@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# env_vars_file=$1
+env_vars_file=$1
 # config_file=$2
 
+access_key=$(jq -r '.access_key' "$env_vars_file")
 # Display the content of the env_vars.json file
-echo "Environment variables file content:"
+echo "Environment variables file content: $access_key"
 # cat "$env_vars_file"
 
 # # Parse JSON to extract values

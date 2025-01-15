@@ -31,7 +31,8 @@ jobs:
       id: gen-pass
       run: |
         pfx=$(openssl rand -base64 12)
-        echo "::set-output name=pfx::$pfx"
+        echo "::add-mask::$pfx"
+        echo $pfx > pfx.txt
 
     - name: print pass
       run: |

@@ -35,7 +35,7 @@ jobs:
 
     - name: print pass
       run: |
-        echo "${steps.gen-pass.outputs.pfx}"
+        echo "${{steps.gen-pass.outputs.pfx}}"
 
     - name: call shell and pass input params 
       run: |

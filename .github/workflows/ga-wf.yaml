@@ -47,7 +47,7 @@ jobs:
         echo "${{steps.gen-pass.outputs.pfx}}"
     - name: install container app cli
       run: 
-        az exxtension add --name containerapp
+        az extension add --name containerapp
         az container env --help
 
     - name: call shell and pass input params 

@@ -45,6 +45,10 @@ jobs:
     - name: print pass
       run: |
         echo "${{steps.gen-pass.outputs.pfx}}"
+    - name: install container app cli
+      run: 
+        az exxtension add --name containerapp
+        az container env --help
 
     - name: call shell and pass input params 
       run: |
@@ -55,7 +59,7 @@ jobs:
           "secret_key": "${{env.secret-key-id}}"
         }
         EOF
-        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
+        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json "${{steps.gen-pass.outputs.pfx}"
       shell: bash
 
           

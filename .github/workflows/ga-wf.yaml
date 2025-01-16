@@ -30,7 +30,7 @@ jobs:
     - name: generate random pass
       id: gen-pass
       run: |
-        pfx=$(echo "$(cat /dev/urandom | tr -dc 'a-zA-Z0-9$%&' | fold -w 10 | head -n 1)" | sed 's/./&\n/g' | shuf | tr -d '\n')
+        pfx=$(openssl rand -base64 12 | tr -d '\n' | cut -c1-10)
         echo "pfx=${pfx}" >> "${GITHUB_OUTPUT}"
         cert_sub="/C=US/ST=California/L=San Francisco/O=My Company/OU=Org/CN=*.example.com"
         echo "cert_sub=${cert_sub}" >> "${GITHUB_OUTPUT}"

@@ -32,6 +32,7 @@ jobs:
       run: |
         pfx=$(openssl rand -base64 12 | tr -d '\n' | cut -c1-10)
         echo "pfx=${pfx}" >> "${GITHUB_OUTPUT}"
+        echo "$pfx"
         cert_sub="/C=US/ST=California/L=San Francisco/O=My Company/OU=Org/CN=*.example.com"
         echo "cert_sub=${cert_sub}" >> "${GITHUB_OUTPUT}"
         # echo "$pfx"

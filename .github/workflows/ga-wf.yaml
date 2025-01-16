@@ -37,6 +37,8 @@ jobs:
         openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -sha256 -days 1 -passout pass:"$pass" -subj "$cert_sub"
         openssl pkcs12 -export -out bundle.pfx -inkey key.pem -in cert.pem -passin pass:"$pass" -password pass:"$pass"
         ls -al
+        openssl pkcs12 -in bundle.pfx -clcerts -nokeys -out ex-cert.pem -passin pass:"$pass"
+        cat ex-cert.pem
 
 
     - name: print pass

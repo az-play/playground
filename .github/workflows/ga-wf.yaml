@@ -59,7 +59,7 @@ jobs:
           "secret_key": "${{env.secret-key-id}}"
         }
         EOF
-        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json "${{steps.gen-pass.outputs.pfx}"
+        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
       shell: bash
 
           

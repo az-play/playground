@@ -66,6 +66,6 @@ jobs:
         python-version: '3.13' 
     - name: Call Python script 
       run: | 
-        python3 your_script.py ${{ steps.gen-pass.outputs.pfx }}
+        python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py" ${{ steps.gen-pass.outputs.pfx }}
 
           

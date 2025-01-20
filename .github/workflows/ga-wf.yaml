@@ -70,7 +70,7 @@ jobs:
         super="12345"
         echo "secret=$super" >> $GITHUB_ENV
         echo "$super"
-    - run: echo "$secret"
+    - run: echo python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
        # python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 
           

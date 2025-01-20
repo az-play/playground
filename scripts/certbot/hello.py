@@ -7,10 +7,10 @@ import os
 # subscription_id = env_vars['subscription_id'] 
 # rp = env_vars['RP'] 
 # default_env = env_vars['default_env']
-access_key = os.environ["access_key"]
+secret = os.environ["secret"]
 print("Hello from Python!")
 
 
-print(f"Running Python script with default_env: access-key : {access-key}")
+print(f"Running : {secret}")
 
 

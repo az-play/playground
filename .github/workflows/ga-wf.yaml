@@ -67,7 +67,7 @@ jobs:
     
     - name: Call Python script 
       run: | 
-        secret= "12345"
+        secret="12345"
         echo "secret=${secret}" >> $GITHUB_ENV
         python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 

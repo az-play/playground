@@ -69,7 +69,8 @@ jobs:
       run: | 
         super="12345"
         echo "secret=${super}" >> $GITHUB_ENV
-        echo "secret is set to ${{env.secret}}"
+        echo "$super"
+        echo "secret is set to $secret"
         python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 
           

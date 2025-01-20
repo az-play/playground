@@ -50,22 +50,22 @@ jobs:
         az extension add --name containerapp
         az container env --help
 
-    - name: call shell and pass input params 
-      run: |
-        chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
-        cat <<EOF > env_vars.json
-        {
-          "access_key": "${{env.access-key-id}}",
-          "secret_key": "${{env.secret-key-id}}"
-        }
-        EOF
-        "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
-      shell: bash
+    # - name: call shell and pass input params 
+    #   run: |
+    #     chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
+    #     cat <<EOF > env_vars.json
+    #     {
+    #       "access_key": "${{env.access-key-id}}",
+    #       "secret_key": "${{env.secret-key-id}}"
+    #     }
+    #     EOF
+    #     "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
+    #   shell: bash
     - uses: actions/setup-python@v5
       with:
         python-version: '3.13' 
     - name: Call Python script 
       run: | 
-        python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py" ${{ steps.gen-pass.outputs.pfx }}
+        python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 
           

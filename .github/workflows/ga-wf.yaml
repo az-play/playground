@@ -24,8 +24,8 @@ jobs:
       #     azcliversion: latest
       #     inlineScript: |
       #       az account show
-    # - name: Checkout
-    #   uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
     
     # - name: generate random pass
     #   id: gen-pass

@@ -67,8 +67,9 @@ jobs:
     
     - name: Call Python script 
       run: | 
-        "access_key": "${{env.secret-key-id}}" >> $GITHUB_ENV
-         echo "::add-mask::${access_key}"
-         python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
+        access_key="${{ secrets.secret-key-id }}" 
+        echo "::add-mask::${access_key}" 
+        echo "access_key=${access_key}" >> $GITHUB_ENV
+        python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 
           

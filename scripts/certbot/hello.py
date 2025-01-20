@@ -7,7 +7,7 @@ import os
 # subscription_id = env_vars['subscription_id'] 
 # rp = env_vars['RP'] 
 # default_env = env_vars['default_env']
-access_key = os.environ["access-key"]
+access_key = os.environ["access_key"]
 print("Hello from Python!")
 
 

@@ -24,31 +24,31 @@ jobs:
       #     azcliversion: latest
       #     inlineScript: |
       #       az account show
-    - name: Checkout
-      uses: actions/checkout@v4
+    # - name: Checkout
+    #   uses: actions/checkout@v4
     
-    - name: generate random pass
-      id: gen-pass
-      run: |
-        pfx=$(openssl rand -base64 12 | tr -d '\n' | cut -c1-10)
-        echo "pfx=${pfx}" >> "${GITHUB_OUTPUT}"
-        echo "$pfx"
-        cert_sub="/C=US/ST=California/L=San Francisco/O=My Company/OU=Org/CN=*.example.com"
-        echo "cert_sub=${cert_sub}" >> "${GITHUB_OUTPUT}"
-        openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -sha256 -days 1 -passout pass:"$pass" -subj "$cert_sub"
-        openssl pkcs12 -export -out bundle.pfx -inkey key.pem -in cert.pem -passin pass:"$pass" -password pass:"$pass"
-        ls -al
-        openssl pkcs12 -in bundle.pfx -clcerts -nokeys -out ex-cert.pem -passin pass:"$pass"
-        cat ex-cert.pem
+    # - name: generate random pass
+    #   id: gen-pass
+    #   run: |
+    #     pfx=$(openssl rand -base64 12 | tr -d '\n' | cut -c1-10)
+    #     echo "pfx=${pfx}" >> "${GITHUB_OUTPUT}"
+    #     echo "$pfx"
+    #     cert_sub="/C=US/ST=California/L=San Francisco/O=My Company/OU=Org/CN=*.example.com"
+    #     echo "cert_sub=${cert_sub}" >> "${GITHUB_OUTPUT}"
+    #     openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -sha256 -days 1 -passout pass:"$pass" -subj "$cert_sub"
+    #     openssl pkcs12 -export -out bundle.pfx -inkey key.pem -in cert.pem -passin pass:"$pass" -password pass:"$pass"
+    #     ls -al
+    #     openssl pkcs12 -in bundle.pfx -clcerts -nokeys -out ex-cert.pem -passin pass:"$pass"
+    #     cat ex-cert.pem
 
 
-    - name: print pass
-      run: |
-        echo "${{steps.gen-pass.outputs.pfx}}"
-    - name: install container app cli
-      run: 
-        az extension add --name containerapp
-        az container env --help
+    # - name: print pass
+    #   run: |
+    #     echo "${{steps.gen-pass.outputs.pfx}}"
+    # - name: install container app cli
+    #   run: 
+    #     az extension add --name containerapp
+    #     az container env --help
 
     # - name: call shell and pass input params 
     #   run: |
@@ -67,9 +67,8 @@ jobs:
     
     - name: Call Python script 
       run: | 
-        access_key="${{ env.access-key-id }}" 
-        echo "::add-mask::${access_key}" 
-        echo "access_key=${access_key}" >> $GITHUB_ENV
+        secret= "12345"
+        echo "secret=${secret}" >> $GITHUB_ENV
         python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
 
           

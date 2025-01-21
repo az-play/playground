@@ -1,0 +1,14 @@
+name: Verify Schedule Job
+
+on:
+  schedule:
+    - cron: '*/2 * * * *'
+  workflow_dispatch:
+
+jobs:
+  verify-schedule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print current time
+        run: echo "The schedule job ran at $(date)"

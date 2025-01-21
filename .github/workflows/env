@@ -1,0 +1,24 @@
+name: Example Workflow
+
+on: [push]
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Parse and set environment variable
+        run: |
+          IFS="=" read -r env_name env_value <<< "${{ inputs.env_pair }}"
+          echo "$env_name=$env_value" >> $GITHUB_ENV
+
+      - name: Print environment variable
+        run: |
+          IFS="=" read -r env_name env_value <<< "${{ inputs.env_pair }}"
+          echo "Environment variable $env_name is ${{ env[$env_name] }}"
+
+inputs:
+  env_pair:
+    description: 'Environment variable and value, formatted as key=value'
+    required: true
+    default: 'dev=blue'

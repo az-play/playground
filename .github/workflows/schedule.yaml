@@ -2,7 +2,7 @@ name: Verify Schedule Job
 
 on:
   schedule:
-    - cron: '*/2 * * * *'
+    - cron: '5 9 22 * *'
   workflow_dispatch:
 
 jobs:

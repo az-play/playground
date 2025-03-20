@@ -2,7 +2,7 @@ name: Verify Schedule Job
 
 on:
   schedule:
-    - cron: '*/1 * * * *' 
+    - cron: '*/5 * * * *' # Runs every 1 minute
   workflow_dispatch:
     inputs:
       env:
@@ -12,6 +12,13 @@ on:
           - blue
           - green
           - ctest
+      product_name:
+        type: string
+        default: "default-product"
+        description: "Specify the product name manually for manual trigger"
+
+env:
+  product: "bs-abc"
 
 jobs:
   new-deploy:
@@ -23,7 +30,9 @@ jobs:
       - name: Print Variables
         env:
           environment: ${{ matrix.environment }}
-          product_name: ${{ format('app-bs-{0}', matrix.environment) }}
+          product_name: ${{ github.event_name == 'workflow_dispatch' && inputs.product_name || format('app-bs-{0}', matrix.environment) }}
+          rg: ${{ format('{0}-rg-{1}', env.product, matrix.environment) }}
         run: |
           echo "Environment: $environment"
           echo "Product Name: $product_name"
+          echo "Resource Group: $rg"

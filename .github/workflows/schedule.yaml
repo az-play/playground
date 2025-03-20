@@ -2,7 +2,7 @@ name: Verify Schedule Job
 
 on:
   schedule:
-    - cron: '5 9 22 * *' # Runs at 09:05 UTC every 22nd of the month
+    - cron: '*/5 * * * *' # Runs at 09:05 UTC every 22nd of the month
   workflow_dispatch:
     inputs:
       env:

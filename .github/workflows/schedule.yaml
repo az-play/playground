@@ -4,11 +4,42 @@ on:
   schedule:
     - cron: '5 9 22 * *'
   workflow_dispatch:
+    inputs:
+      env:
+        type: choice
+        default: green
+        options:
+          - blue
+          - green
+          - ctest
 
 jobs:
-  verify-schedule:
+  deploy:
     runs-on: ubuntu-latest
-
+    if: ${{ github.event_name == 'schedule' }}
+    strategy:
+      matrix:
+        environment: [blue, green]
+    env:
+      environment: ${{ matrix.environment }}
+      product_name: app-bs-${{ matrix.environment }}
     steps:
-      - name: Print current time
-        run: echo "The schedule job ran at $(date)"
+      - name: Set environment
+        run: |
+          echo "environment=${{ matrix.environment }}" >> $GITHUB_ENV
+          echo "product_name=app-bs-${{ matrix.environment }}" >> $GITHUB_ENV
+
+  new-deploy:
+    runs-on: ubuntu-latest
+    needs: deploy
+    strategy:
+      matrix:
+        environment: "${{ github.event_name == 'schedule' && fromJson('["blue", "green"]') || fromJson('["${{ inputs.env }}"]') }}"
+    steps:
+      - name: Print Variables
+        env:
+          environment: ${{ matrix.environment }}
+          product_name: ${{ github.event_name == 'workflow_dispatch' && inputs.env || matrix.environment }}
+        run: |
+          echo "Environment: $environment"
+          echo "Product Name: $product_name"

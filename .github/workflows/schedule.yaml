@@ -46,3 +46,4 @@ jobs:
           echo "Using RG variable in this step:"
           echo "Resource Group: $RG"
           echo "Product Name: $PRODUCT_NAME"
+          echo "heyyyyyy : ${{env.PRODUCT_NAME}}"

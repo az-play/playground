@@ -30,7 +30,7 @@ jobs:
       - name: Print Variables
         env:
           environment: ${{ matrix.environment }}
-          product_name: ${{ github.event_name == 'workflow_dispatch' && format('{0}-test', inputs.product_name) || format('app-bs-{0}', matrix.environment) }}
+          product_name: ${{ github.event_name == 'workflow_dispatch' && format('{0}-test-{1}', inputs.product_name, inputs.env) || format('app-bs-{0}', matrix.environment) }}
           rg: ${{ github.event_name == 'workflow_dispatch' && format('{0}-test', inputs.product_name) || format('{0}-rg-{1}', env.product, matrix.environment) }}
         run: |
           echo "Environment: $environment"

@@ -1,79 +1,13 @@
-name: Run Azure Login with OIDC
-on: [push]
+name: Run Every 5 Minutes
 
-permissions:
-  id-token: write
-  contents: read
+on:
+  schedule:
+    - cron: '*/5 * * * *' # Runs every 5 minutes
+
 jobs:
-  build-and-deploy:
+  run-task:
     runs-on: ubuntu-latest
-    env:
-      access-key-id: "123456-77777-999999"
-      secret-key-id: "12345-99999-00000"
     steps:
-      # - name: 'Az CLI login'
-      #   uses: azure/login@v2
-      #   with:
-      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      # - name: 'Run az commands'
-      #   uses: azure/cli@v2
-      #   with:
-      #     azcliversion: latest
-      #     inlineScript: |
-      #       az account show
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    # - name: generate random pass
-    #   id: gen-pass
-    #   run: |
-    #     pfx=$(openssl rand -base64 12 | tr -d '\n' | cut -c1-10)
-    #     echo "pfx=${pfx}" >> "${GITHUB_OUTPUT}"
-    #     echo "$pfx"
-    #     cert_sub="/C=US/ST=California/L=San Francisco/O=My Company/OU=Org/CN=*.example.com"
-    #     echo "cert_sub=${cert_sub}" >> "${GITHUB_OUTPUT}"
-    #     openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -sha256 -days 1 -passout pass:"$pass" -subj "$cert_sub"
-    #     openssl pkcs12 -export -out bundle.pfx -inkey key.pem -in cert.pem -passin pass:"$pass" -password pass:"$pass"
-    #     ls -al
-    #     openssl pkcs12 -in bundle.pfx -clcerts -nokeys -out ex-cert.pem -passin pass:"$pass"
-    #     cat ex-cert.pem
-
-
-    # - name: print pass
-    #   run: |
-    #     echo "${{steps.gen-pass.outputs.pfx}}"
-    # - name: install container app cli
-    #   run: 
-    #     az extension add --name containerapp
-    #     az container env --help
-
-    # - name: call shell and pass input params 
-    #   run: |
-    #     chmod +x "${GITHUB_WORKSPACE}/scripts/certbot/test.sh"
-    #     cat <<EOF > env_vars.json
-    #     {
-    #       "access_key": "${{env.access-key-id}}",
-    #       "secret_key": "${{env.secret-key-id}}"
-    #     }
-    #     EOF
-    #     "${GITHUB_WORKSPACE}/scripts/certbot/test.sh" env_vars.json
-    #   shell: bash
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.13' 
-    
-    - name: Call Python script 
-      run: | 
-        super="12345"
-        echo "secret=$super" >> $GITHUB_ENV
-        echo "::add-mask::$super"
-        echo "$super"
-    - name: print env
-      run: echo "hey"
-    - run: echo python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
-       # python3 "${GITHUB_WORKSPACE}/scripts/certbot/hello.py"
-
-          
+      - name: Perform Task
+        run: |
+          echo "This task runs every 5 minutes"

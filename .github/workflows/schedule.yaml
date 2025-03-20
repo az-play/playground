@@ -2,7 +2,7 @@ name: Verify Schedule Job
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # Runs every 1 minute
+    - cron: '*/5 * * * *' # Runs every 5 minutes
   workflow_dispatch:
     inputs:
       env:
@@ -30,8 +30,8 @@ jobs:
       - name: Print Variables
         env:
           environment: ${{ matrix.environment }}
-          product_name: ${{ github.event_name == 'workflow_dispatch' && inputs.product_name || format('app-bs-{0}', matrix.environment) }}
-          rg: ${{ github.event_name == 'workflow_dispatch' && ${{inputs.product_name-test}} || format('{0}-rg-{1}', env.product, matrix.environment) }}
+          product_name: ${{ github.event_name == 'workflow_dispatch' && format('{0}-test', inputs.product_name) || format('app-bs-{0}', matrix.environment) }}
+          rg: ${{ github.event_name == 'workflow_dispatch' && format('{0}-test', inputs.product_name) || format('{0}-rg-{1}', env.product, matrix.environment) }}
         run: |
           echo "Environment: $environment"
           echo "Product Name: $product_name"

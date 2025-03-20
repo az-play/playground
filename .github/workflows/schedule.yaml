@@ -34,7 +34,7 @@ jobs:
     needs: deploy
     strategy:
       matrix:
-        environment: "${{ github.event_name == 'schedule' && fromJson('["blue", "green"]') || fromJson('["${{ inputs.env }}"]') }}"
+        environment: ${{ github.event_name == 'schedule' && fromJson('["blue", "green"]') || fromJson('["green"]') }}
     steps:
       - name: Print Variables
         env:
